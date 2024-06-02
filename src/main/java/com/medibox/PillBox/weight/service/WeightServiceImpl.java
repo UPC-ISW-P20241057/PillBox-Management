@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WeightServiceImpl implements WeightService {
@@ -20,7 +21,24 @@ public class WeightServiceImpl implements WeightService {
   }
 
   @Override
-  public Weight save(Weight weight) {
+  public Weight update(Weight weight) {
     return weightRepository.save(weight);
+  }
+
+  @Override
+  public Weight getLatestWeight() {
+    return weightRepository.findTopByOrderByIdDesc();
+  }
+
+  @Override
+  public Weight updateWeight(Long id, String value) {
+    Weight weight = weightRepository.findById(id).orElseThrow(() -> new RuntimeException("Weight not found"));
+    weight.setValue(value);
+    return weightRepository.save(weight);
+  }
+
+  @Override
+  public Optional<Weight> getById(Long id) {
+    return weightRepository.findById(id);
   }
 }

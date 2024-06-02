@@ -7,6 +7,8 @@ import lombok.*;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateWeightResource {
-  private String value;
+public class UpdateWeightResource {
+  private Long id;
+  //private String value;
+  private Boolean reminder;
 }

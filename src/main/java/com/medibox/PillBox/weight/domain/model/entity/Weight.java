@@ -15,4 +15,7 @@ public class Weight {
 
   @Column(name = "value", length = 50)
   private String value;
+
+  @Column(name = "reminder", nullable = false)
+  private Boolean reminder = false;
 }
