@@ -9,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeightResource {
-  private String value;
   private Boolean reminder;
+  private Boolean isEmpty;
+  private Boolean almostEmpty;
+  private Integer numberAlarm;
 }

@@ -36,14 +36,46 @@ public class WeightController {
     }
   }
 
+  @PatchMapping("{id}")
+  public ResponseEntity<WeightResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateWeightResource resource) {
+    if(id.equals(resource.getId())) {
+      Weight existingWeight = weightService.getById(id).orElseThrow(() -> new RuntimeException("Weight not found"));
+      if (resource.getReminder() != null) {
+        existingWeight.setReminder(resource.getReminder());
+      }
+      if (resource.getIsEmpty() != null) {
+        existingWeight.setIsEmpty(resource.getIsEmpty());
+      } else {
+        existingWeight.setIsEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+      }
+      if (resource.getAlmostEmpty() != null) {
+        existingWeight.setAlmostEmpty(resource.getAlmostEmpty());
+      } else {
+        existingWeight.setAlmostEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+      }
+      if (resource.getNumberAlarm() != null) {
+        existingWeight.setNumberAlarm(resource.getNumberAlarm());
+      } else {
+        existingWeight.setNumberAlarm(1); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+      }
+      WeightResource updatedWeightResource = mapper.toResource(weightService.update(existingWeight));
+      return ResponseEntity.ok(updatedWeightResource);
+    } else {
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+
   @GetMapping("/latest")
   public Weight getLatestWeight() {
     return weightService.getLatestWeight();
   }
 
-  @PutMapping("/latest")
-  public Weight updateLatestWeight(@RequestBody Weight weight) {
+  @PatchMapping("/latest")
+  public ResponseEntity<WeightResource> patchLatestWeight(@RequestBody Weight weight) {
     Weight latestWeight = weightService.getLatestWeight();
-    return weightService.updateWeight(latestWeight.getId(), weight.getValue());
+    latestWeight.setValue(weight.getValue()); // Actualiza solo el valor del peso
+    WeightResource updatedWeightResource = mapper.toResource(weightService.update(latestWeight));
+    return new ResponseEntity<>(updatedWeightResource, HttpStatus.OK);
   }
 }

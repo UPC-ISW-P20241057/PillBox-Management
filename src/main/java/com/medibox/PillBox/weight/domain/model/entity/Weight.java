@@ -10,12 +10,20 @@ import lombok.Setter;
 @Table(name = "weights")
 public class Weight {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(name = "value", length = 50)
   private String value;
 
   @Column(name = "reminder", nullable = false)
-  private Boolean reminder = false;
+  private Boolean reminder;
+
+  @Column(name = "is_empty", nullable = false)
+  private Boolean isEmpty;
+
+  @Column(name = "almost_empty", nullable = false)
+  private Boolean almostEmpty;
+
+  @Column(name = "number_alarm", nullable = false)
+  private Integer numberAlarm;
 }

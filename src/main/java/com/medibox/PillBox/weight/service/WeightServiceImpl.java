@@ -17,8 +17,22 @@ public class WeightServiceImpl implements WeightService {
 
   @Override
   public List<Weight> getAll() {
-    return weightRepository.findAll();
+    List<Weight> weights = weightRepository.findAll();
+    if (weights.isEmpty()) {
+      Weight newWeight = new Weight();
+      newWeight.setId(1L);
+      newWeight.setValue("0");
+      newWeight.setReminder(false);
+      newWeight.setIsEmpty(false);
+      newWeight.setAlmostEmpty(false);
+      newWeight.setNumberAlarm(1);
+      weightRepository.save(newWeight);
+      weights.add(newWeight);
+    }
+    return weights;
   }
+
+
 
   @Override
   public Weight update(Weight weight) {
