@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pillbox-iot
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://azure-mau-postgre.postgres.database.azure.com:5432/pillbox_database
+    username: mau
+    password: Li@nel2022
     driver-class-name: org.postgresql.Driver
 
   jpa:
