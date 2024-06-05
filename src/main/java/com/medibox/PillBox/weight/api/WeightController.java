@@ -1,10 +1,10 @@
 package com.medibox.PillBox.weight.api;
 
-import com.medibox.PillBox.weight.domain.model.entity.Weight;
-import com.medibox.PillBox.weight.domain.service.WeightService;
-import com.medibox.PillBox.weight.mapping.WeightMapper;
-import com.medibox.PillBox.weight.resource.UpdateWeightResource;
-import com.medibox.PillBox.weight.resource.WeightResource;
+import com.medibox.PillBox.weight.domain.model.entity.Data;
+import com.medibox.PillBox.weight.domain.service.DataService;
+import com.medibox.PillBox.weight.mapping.DataMapper;
+import com.medibox.PillBox.weight.resource.UpdateDataResource;
+import com.medibox.PillBox.weight.resource.DataResource;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,50 +16,50 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/weights")
 public class WeightController {
-  private final WeightService weightService;
-  private final WeightMapper mapper;
+  private final DataService dataService;
+  private final DataMapper mapper;
 
   @GetMapping
-  public List<Weight> getAll(){
-    return weightService.getAll();
+  public List<Data> getAll(){
+    return dataService.getAll();
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<WeightResource> update(@PathVariable Long id, @RequestBody UpdateWeightResource resource) {
+  public ResponseEntity<DataResource> update(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if(id.equals(resource.getId())) {
-      Weight existingWeight = weightService.getById(id).orElseThrow(() -> new RuntimeException("Weight not found"));
-      existingWeight.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
-      WeightResource updatedWeightResource = mapper.toResource(weightService.update(existingWeight));
-      return new ResponseEntity<>(updatedWeightResource, HttpStatus.OK);
+      Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
+      existingData.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
+      DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
+      return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
     } else {
       return ResponseEntity.badRequest().build();
     }
   }
 
   @PatchMapping("{id}")
-  public ResponseEntity<WeightResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateWeightResource resource) {
+  public ResponseEntity<DataResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if(id.equals(resource.getId())) {
-      Weight existingWeight = weightService.getById(id).orElseThrow(() -> new RuntimeException("Weight not found"));
+      Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
       if (resource.getReminder() != null) {
-        existingWeight.setReminder(resource.getReminder());
+        existingData.setReminder(resource.getReminder());
       }
       if (resource.getIsEmpty() != null) {
-        existingWeight.setIsEmpty(resource.getIsEmpty());
+        existingData.setIsEmpty(resource.getIsEmpty());
       } else {
-        existingWeight.setIsEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+        existingData.setIsEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
       }
       if (resource.getAlmostEmpty() != null) {
-        existingWeight.setAlmostEmpty(resource.getAlmostEmpty());
+        existingData.setAlmostEmpty(resource.getAlmostEmpty());
       } else {
-        existingWeight.setAlmostEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+        existingData.setAlmostEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
       }
       if (resource.getNumberAlarm() != null) {
-        existingWeight.setNumberAlarm(resource.getNumberAlarm());
+        existingData.setNumberAlarm(resource.getNumberAlarm());
       } else {
-        existingWeight.setNumberAlarm(1); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
+        existingData.setNumberAlarm(1); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
       }
-      WeightResource updatedWeightResource = mapper.toResource(weightService.update(existingWeight));
-      return ResponseEntity.ok(updatedWeightResource);
+      DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
+      return ResponseEntity.ok(updatedDataResource);
     } else {
       return ResponseEntity.badRequest().build();
     }
@@ -67,15 +67,15 @@ public class WeightController {
 
 
   @GetMapping("/latest")
-  public Weight getLatestWeight() {
-    return weightService.getLatestWeight();
+  public Data getLatestWeight() {
+    return dataService.getLatestWeight();
   }
 
   @PatchMapping("/latest")
-  public ResponseEntity<WeightResource> patchLatestWeight(@RequestBody Weight weight) {
-    Weight latestWeight = weightService.getLatestWeight();
-    latestWeight.setValue(weight.getValue()); // Actualiza solo el valor del peso
-    WeightResource updatedWeightResource = mapper.toResource(weightService.update(latestWeight));
-    return new ResponseEntity<>(updatedWeightResource, HttpStatus.OK);
+  public ResponseEntity<DataResource> patchLatestWeight(@RequestBody Data data) {
+    Data latestData = dataService.getLatestWeight();
+    latestData.setValue(data.getValue()); // Actualiza solo el valor del peso
+    DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
+    return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
   }
 }

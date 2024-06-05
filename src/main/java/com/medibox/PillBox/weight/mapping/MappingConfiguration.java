@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration("weightMappingConfiguration")
 public class MappingConfiguration {
   @Bean
-  public WeightMapper medicineMapper() {
-    return new WeightMapper();
+  public DataMapper medicineMapper() {
+    return new DataMapper();
   }
 }

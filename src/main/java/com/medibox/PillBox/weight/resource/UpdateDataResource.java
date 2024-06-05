@@ -1,6 +1,5 @@
 package com.medibox.PillBox.weight.resource;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
@@ -8,7 +7,7 @@ import lombok.*;
 @With
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateWeightResource {
+public class UpdateDataResource {
   private Long id;
   //private String value;
   private Boolean reminder;

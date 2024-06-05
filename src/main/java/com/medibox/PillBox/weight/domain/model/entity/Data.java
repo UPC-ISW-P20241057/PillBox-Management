@@ -7,8 +7,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "weights")
-public class Weight {
+@Table(name = "data")
+public class Data {
   @Id
   private Long id;
 
