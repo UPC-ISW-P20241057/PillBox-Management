@@ -20,15 +20,20 @@ public class DataController {
   private final DataMapper mapper;
 
   @GetMapping
-  public List<Data> getAll(){
+  public List<Data> getAll() {
     return dataService.getAll();
   }
 
   @PutMapping("{id}")
   public ResponseEntity<DataResource> update(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
-    if(id.equals(resource.getId())) {
+    if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
-      existingData.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
+      if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
+      if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
+      if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
+      if (resource.getNumberAlarm() != null) existingData.setNumberAlarm(resource.getNumberAlarm());
+      if (resource.getSsid() != null) existingData.setSsid(resource.getSsid());
+      if (resource.getPassword() != null) existingData.setPassword(resource.getPassword());
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
       return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
     } else {
@@ -38,33 +43,20 @@ public class DataController {
 
   @PatchMapping("{id}")
   public ResponseEntity<DataResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
-    if(id.equals(resource.getId())) {
+    if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
-      if (resource.getReminder() != null) {
-        existingData.setReminder(resource.getReminder());
-      }
-      if (resource.getIsEmpty() != null) {
-        existingData.setIsEmpty(resource.getIsEmpty());
-      } else {
-        existingData.setIsEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
-      }
-      if (resource.getAlmostEmpty() != null) {
-        existingData.setAlmostEmpty(resource.getAlmostEmpty());
-      } else {
-        existingData.setAlmostEmpty(false); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
-      }
-      if (resource.getNumberAlarm() != null) {
-        existingData.setNumberAlarm(resource.getNumberAlarm());
-      } else {
-        existingData.setNumberAlarm(1); // Valor predeterminado si no se proporciona en el cuerpo de la solicitud
-      }
+      if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
+      if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
+      if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
+      if (resource.getNumberAlarm() != null) existingData.setNumberAlarm(resource.getNumberAlarm());
+      if (resource.getSsid() != null) existingData.setSsid(resource.getSsid());
+      if (resource.getPassword() != null) existingData.setPassword(resource.getPassword());
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
       return ResponseEntity.ok(updatedDataResource);
     } else {
       return ResponseEntity.badRequest().build();
     }
   }
-
 
   @GetMapping("/latest")
   public Data getLatestWeight() {
@@ -74,7 +66,9 @@ public class DataController {
   @PatchMapping("/latest")
   public ResponseEntity<DataResource> patchLatestWeight(@RequestBody Data data) {
     Data latestData = dataService.getLatestWeight();
-    latestData.setValue(data.getValue()); // Actualiza solo el valor del peso
+    if (data.getValue() != null) latestData.setValue(data.getValue());
+    if (data.getSsid() != null) latestData.setSsid(data.getSsid());
+    if (data.getPassword() != null) latestData.setPassword(data.getPassword());
     DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
   }
