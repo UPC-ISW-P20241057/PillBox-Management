@@ -1,5 +1,6 @@
 package com.medibox.PillBox.weight.resource;
 
+import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
@@ -12,4 +13,7 @@ public class DataResource {
   private Boolean isEmpty;
   private Boolean almostEmpty;
   private Integer numberAlarm;
+  private String ssid;
+  private String password;
+  private Boolean wifi;
 }

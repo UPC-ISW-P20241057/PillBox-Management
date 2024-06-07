@@ -26,6 +26,9 @@ public class DataServiceImpl implements DataService {
       newData.setIsEmpty(false);
       newData.setAlmostEmpty(false);
       newData.setNumberAlarm(1);
+      newData.setSsid("");
+      newData.setPassword("");
+      newData.setWifi(false);
       dataRepository.save(newData);
       data.add(newData);
     }

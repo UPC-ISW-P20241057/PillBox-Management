@@ -26,4 +26,13 @@ public class Data {
 
   @Column(name = "number_alarm", nullable = false)
   private Integer numberAlarm;
+
+  @Column(name = "ssid")
+  private String ssid;
+
+  @Column(name = "password")
+  private String password;
+
+  @Column(name = "wifi", nullable = false)
+  private Boolean wifi;
 }

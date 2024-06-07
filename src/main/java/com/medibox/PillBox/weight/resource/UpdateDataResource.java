@@ -14,4 +14,6 @@ public class UpdateDataResource {
   private Boolean isEmpty;
   private Boolean almostEmpty;
   private Integer numberAlarm;
+  private String ssid;
+  private String password;
 }

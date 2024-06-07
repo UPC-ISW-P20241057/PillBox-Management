@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/weights")
-public class WeightController {
+public class DataController {
   private final DataService dataService;
   private final DataMapper mapper;
 
