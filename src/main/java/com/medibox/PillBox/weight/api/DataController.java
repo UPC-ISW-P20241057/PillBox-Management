@@ -28,7 +28,12 @@ public class DataController {
   public ResponseEntity<DataResource> update(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
-      updateDataFromResource(existingData, resource);
+      if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
+      if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
+      if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
+      if (resource.getNumberAlarm() != null) existingData.setNumberAlarm(resource.getNumberAlarm());
+      if (resource.getSsid() != null) existingData.setSsid(resource.getSsid());
+      if (resource.getPassword() != null) existingData.setPassword(resource.getPassword());
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
       return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
     } else {
@@ -40,7 +45,12 @@ public class DataController {
   public ResponseEntity<DataResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
-      updateDataFromResource(existingData, resource);
+      if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
+      if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
+      if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
+      if (resource.getNumberAlarm() != null) existingData.setNumberAlarm(resource.getNumberAlarm());
+      if (resource.getSsid() != null) existingData.setSsid(resource.getSsid());
+      if (resource.getPassword() != null) existingData.setPassword(resource.getPassword());
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
       return ResponseEntity.ok(updatedDataResource);
     } else {
@@ -49,25 +59,17 @@ public class DataController {
   }
 
   @GetMapping("/latest")
-  public DataResource getLatestWeight() {
-    Data latestData = dataService.getLatestWeight();
-    return mapper.toResource(latestData);
+  public Data getLatestWeight() {
+    return dataService.getLatestWeight();
   }
 
   @PatchMapping("/latest")
-  public ResponseEntity<DataResource> patchLatestWeight(@RequestBody UpdateDataResource resource) {
+  public ResponseEntity<DataResource> patchLatestWeight(@RequestBody Data data) {
     Data latestData = dataService.getLatestWeight();
-    updateDataFromResource(latestData, resource);
+    if (data.getValue() != null) latestData.setValue(data.getValue());
+    if (data.getSsid() != null) latestData.setSsid(data.getSsid());
+    if (data.getPassword() != null) latestData.setPassword(data.getPassword());
     DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
-  }
-
-  private void updateDataFromResource(Data data, UpdateDataResource resource) {
-    if (resource.getReminder() != null) data.setReminder(resource.getReminder());
-    if (resource.getIsEmpty() != null) data.setIsEmpty(resource.getIsEmpty());
-    if (resource.getAlmostEmpty() != null) data.setAlmostEmpty(resource.getAlmostEmpty());
-    if (resource.getNumberAlarm() != null) data.setNumberAlarm(resource.getNumberAlarm());
-    if (resource.getSsid() != null) data.setSsid(resource.getSsid());
-    if (resource.getPassword() != null) data.setPassword(resource.getPassword());
   }
 }
