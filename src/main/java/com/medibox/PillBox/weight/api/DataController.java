@@ -60,9 +60,7 @@ public class DataController {
 
   @GetMapping("/latest")
   public Data getLatestWeight() {
-    Data latestData = dataService.getLatestWeight();
-    ensureNonNullFields(latestData);
-    return latestData;
+    return dataService.getLatestWeight();
   }
 
   @PatchMapping("/latest")
@@ -73,16 +71,5 @@ public class DataController {
     if (data.getPassword() != null) latestData.setPassword(data.getPassword());
     DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
-  }
-
-  private void ensureNonNullFields(Data data) {
-    if (data.getValue() == null) data.setValue("0");
-    if (data.getReminder() == null) data.setReminder(false);
-    if (data.getIsEmpty() == null) data.setIsEmpty(false);
-    if (data.getAlmostEmpty() == null) data.setAlmostEmpty(false);
-    if (data.getNumberAlarm() == null) data.setNumberAlarm(1);
-    if (data.getSsid() == null) data.setSsid("");
-    if (data.getPassword() == null) data.setPassword("");
-    if (data.getWifi() == null) data.setWifi(false);
   }
 }

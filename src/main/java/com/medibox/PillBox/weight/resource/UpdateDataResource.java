@@ -16,4 +16,5 @@ public class UpdateDataResource {
   private Integer numberAlarm;
   private String ssid;
   private String password;
+  //private Boolean wifi;
 }
