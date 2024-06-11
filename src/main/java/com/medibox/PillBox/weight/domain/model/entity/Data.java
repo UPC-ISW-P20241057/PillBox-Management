@@ -33,6 +33,4 @@ public class Data {
   @Column(name = "password")
   private String password;
 
-  @Column(name = "wifi", nullable = false)
-  private Boolean wifi;
 }
