@@ -66,10 +66,29 @@ public class DataController {
   @PatchMapping("/latest")
   public ResponseEntity<DataResource> patchLatestWeight(@RequestBody Data data) {
     Data latestData = dataService.getLatestWeight();
-    if (data.getValue() != null) latestData.setValue(data.getValue());
-    if (data.getSsid() != null) latestData.setSsid(data.getSsid());
-    if (data.getPassword() != null) latestData.setPassword(data.getPassword());
+
+    if (data.getValue() != null) {
+      latestData.setValue(data.getValue());
+    }
+
+    if (data.getSsid() != null) {
+      latestData.setSsid(data.getSsid());
+    }
+
+    if (data.getPassword() != null) {
+      latestData.setPassword(data.getPassword());
+    }
+
+    if (data.getIsEmpty() != null) {
+      latestData.setIsEmpty(data.getIsEmpty());
+    }
+
+    if (data.getAlmostEmpty() != null) {
+      latestData.setAlmostEmpty(data.getAlmostEmpty());
+    }
+
     DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
   }
+
 }
