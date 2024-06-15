@@ -29,8 +29,8 @@ public class DataController {
     if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
       if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
-      if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
-      if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
+      //if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
+      //if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
       if (resource.getNumberAlarm() != null) existingData.setNumberAlarm(resource.getNumberAlarm());
       if (resource.getSsid() != null) existingData.setSsid(resource.getSsid());
       if (resource.getPassword() != null) existingData.setPassword(resource.getPassword());
@@ -46,11 +46,11 @@ public class DataController {
     if (id.equals(resource.getId())) {
       Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
       existingData.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
-      existingData.setIsEmpty(resource.getIsEmpty() != null ? resource.getIsEmpty() : false);
-      existingData.setAlmostEmpty(resource.getAlmostEmpty() != null ? resource.getAlmostEmpty() : false);
-      existingData.setNumberAlarm(resource.getNumberAlarm() != null ? resource.getNumberAlarm() : 1);
-      existingData.setSsid(resource.getSsid() != null ? resource.getSsid() : "");
-      existingData.setPassword(resource.getPassword() != null ? resource.getPassword() : "");
+      //existingData.setIsEmpty(resource.getIsEmpty() != null ? resource.getIsEmpty() : false);
+      //existingData.setAlmostEmpty(resource.getAlmostEmpty() != null ? resource.getAlmostEmpty() : false);
+      //existingData.setNumberAlarm(resource.getNumberAlarm() != null ? resource.getNumberAlarm() : 1);
+      //existingData.setSsid(resource.getSsid() != null ? resource.getSsid() : "");
+      //existingData.setPassword(resource.getPassword() != null ? resource.getPassword() : "");
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
       return ResponseEntity.ok(updatedDataResource);
     } else {

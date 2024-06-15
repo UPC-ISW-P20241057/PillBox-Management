@@ -11,8 +11,8 @@ public class UpdateDataResource {
   private Long id;
   //private String value;
   private Boolean reminder;
-  private Boolean isEmpty;
-  private Boolean almostEmpty;
+  //private Boolean isEmpty;
+  //private Boolean almostEmpty;
   private Integer numberAlarm;
   private String ssid;
   private String password;
