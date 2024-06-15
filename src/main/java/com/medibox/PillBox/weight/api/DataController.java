@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class DataController {
   @PutMapping("{id}")
   public ResponseEntity<DataResource> update(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if (id.equals(resource.getId())) {
-      Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
+      Data existingData = dataService.getById(id);
       if (resource.getReminder() != null) existingData.setReminder(resource.getReminder());
       //if (resource.getIsEmpty() != null) existingData.setIsEmpty(resource.getIsEmpty());
       //if (resource.getAlmostEmpty() != null) existingData.setAlmostEmpty(resource.getAlmostEmpty());
@@ -44,7 +45,7 @@ public class DataController {
   @PatchMapping("{id}")
   public ResponseEntity<DataResource> patchUpdate(@PathVariable Long id, @RequestBody UpdateDataResource resource) {
     if (id.equals(resource.getId())) {
-      Data existingData = dataService.getById(id).orElseThrow(() -> new RuntimeException("Data not found"));
+      Data existingData = dataService.getById(id);
       existingData.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
       //existingData.setIsEmpty(resource.getIsEmpty() != null ? resource.getIsEmpty() : false);
       //existingData.setAlmostEmpty(resource.getAlmostEmpty() != null ? resource.getAlmostEmpty() : false);
@@ -64,8 +65,8 @@ public class DataController {
   }
 
   @GetMapping("{id}")
-  public DataResource getById(@PathVariable Long id) {
-    return this.mapper.toResource(dataService.getById(id).get());
+  public Data getById(@PathVariable Long id) {
+    return dataService.getById(id);
   }
 
   @PatchMapping("/latest")
@@ -74,14 +75,6 @@ public class DataController {
 
     if (data.getValue() != null) {
       latestData.setValue(data.getValue());
-    }
-
-    if (data.getSsid() != null) {
-      latestData.setSsid(data.getSsid());
-    }
-
-    if (data.getPassword() != null) {
-      latestData.setPassword(data.getPassword());
     }
 
     if (data.getIsEmpty() != null) {
@@ -96,4 +89,23 @@ public class DataController {
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
   }
 
+  @PatchMapping("/esp/{id}")
+  public ResponseEntity<DataResource> patchDataById(@PathVariable Long id, @RequestBody Data data) {
+    Data latestData = dataService.getById(id);
+
+    if (data.getValue() != null) {
+      latestData.setValue(data.getValue());
+    }
+
+    if (data.getIsEmpty() != null) {
+      latestData.setIsEmpty(data.getIsEmpty());
+    }
+
+    if (data.getAlmostEmpty() != null) {
+      latestData.setAlmostEmpty(data.getAlmostEmpty());
+    }
+
+    DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
+    return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
+  }
 }

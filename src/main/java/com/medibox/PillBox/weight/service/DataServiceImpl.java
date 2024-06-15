@@ -63,7 +63,27 @@ public class DataServiceImpl implements DataService {
   }
 
   @Override
-  public Optional<Data> getById(Long id) {
-    return dataRepository.findById(id);
+  public Data getById(Long id) {
+    return dataRepository.findById(id).orElseThrow(() -> new RuntimeException("Data not found"));
   }
+
+  @Override
+  public Data updateWeightById(Long id, String value, Boolean isEmpty, Boolean almostEmpty) {
+    Data data = dataRepository.findById(id).orElseThrow(() -> new RuntimeException("Data not found"));
+
+    if (value != null) {
+      data.setValue(value);
+    }
+
+    if (isEmpty != null) {
+      data.setIsEmpty(isEmpty);
+    }
+
+    if (almostEmpty != null) {
+      data.setAlmostEmpty(almostEmpty);
+    }
+
+    return dataRepository.save(data);
+  }
+
 }
