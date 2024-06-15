@@ -47,9 +47,18 @@ public class DataServiceImpl implements DataService {
   }
 
   @Override
-  public Data updateWeight(Long id, String value) {
+  public Data updateWeight(Long id, String value, Boolean isEmpty, Boolean almostEmpty) {
     Data data = dataRepository.findById(id).orElseThrow(() -> new RuntimeException("Data not found"));
     data.setValue(value);
+
+    if (isEmpty != null) {
+      data.setIsEmpty(isEmpty);
+    }
+
+    if (almostEmpty != null) {
+      data.setAlmostEmpty(almostEmpty);
+    }
+
     return dataRepository.save(data);
   }
 

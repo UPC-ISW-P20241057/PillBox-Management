@@ -9,6 +9,6 @@ public interface DataService {
   List<Data> getAll();
   Data update(Data data);
   Data getLatestWeight();
-  Data updateWeight(Long id, String value);
+  Data updateWeight(Long id, String value, Boolean isEmpty, Boolean almostEmpty);
   Optional<Data> getById(Long id);
 }
