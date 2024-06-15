@@ -63,6 +63,11 @@ public class DataController {
     return dataService.getLatestWeight();
   }
 
+  @GetMapping("{id}")
+  public DataResource getById(@PathVariable Long id) {
+    return this.mapper.toResource(dataService.getById(id).get());
+  }
+
   @PatchMapping("/latest")
   public ResponseEntity<DataResource> patchLatestWeight(@RequestBody Data data) {
     Data latestData = dataService.getLatestWeight();
