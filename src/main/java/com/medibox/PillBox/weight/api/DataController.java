@@ -49,7 +49,7 @@ public class DataController {
       existingData.setReminder(resource.getReminder() != null ? resource.getReminder() : false);
       //existingData.setIsEmpty(resource.getIsEmpty() != null ? resource.getIsEmpty() : false);
       //existingData.setAlmostEmpty(resource.getAlmostEmpty() != null ? resource.getAlmostEmpty() : false);
-      //existingData.setNumberAlarm(resource.getNumberAlarm() != null ? resource.getNumberAlarm() : 1);
+      existingData.setNumberAlarm(resource.getNumberAlarm() != null ? resource.getNumberAlarm() : 1);
       //existingData.setSsid(resource.getSsid() != null ? resource.getSsid() : "");
       //existingData.setPassword(resource.getPassword() != null ? resource.getPassword() : "");
       DataResource updatedDataResource = mapper.toResource(dataService.update(existingData));
