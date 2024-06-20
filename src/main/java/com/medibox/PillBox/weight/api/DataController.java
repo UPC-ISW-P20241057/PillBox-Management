@@ -105,6 +105,10 @@ public class DataController {
       latestData.setAlmostEmpty(data.getAlmostEmpty());
     }
 
+    if (data.getReminder() != null) {
+      latestData.setReminder(data.getReminder());
+    }
+
     DataResource updatedDataResource = mapper.toResource(dataService.update(latestData));
     return new ResponseEntity<>(updatedDataResource, HttpStatus.OK);
   }
