@@ -19,17 +19,29 @@ public class DataServiceImpl implements DataService {
   public List<Data> getAll() {
     List<Data> data = dataRepository.findAll();
     if (data.isEmpty()) {
-      Data newData = new Data();
-      newData.setId(1L);
-      newData.setValue("0");
-      newData.setReminder(false);
-      newData.setIsEmpty(false);
-      newData.setAlmostEmpty(false);
-      newData.setNumberAlarm(1);
-      newData.setSsid("");
-      newData.setPassword("");
-      dataRepository.save(newData);
-      data.add(newData);
+      Data newData1 = new Data();
+      newData1.setId(1L);
+      newData1.setValue("0");
+      newData1.setReminder(false);
+      newData1.setIsEmpty(false);
+      newData1.setAlmostEmpty(false);
+      newData1.setNumberAlarm(1);
+      newData1.setSsid("");
+      newData1.setPassword("");
+      dataRepository.save(newData1);
+      data.add(newData1);
+
+      Data newData2 = new Data();
+      newData2.setId(2L);
+      newData2.setValue("0");
+      newData2.setReminder(false);
+      newData2.setIsEmpty(false);
+      newData2.setAlmostEmpty(false);
+      newData2.setNumberAlarm(1);
+      newData2.setSsid("");
+      newData2.setPassword("");
+      dataRepository.save(newData2);
+      data.add(newData2);
     }
     return data;
   }
