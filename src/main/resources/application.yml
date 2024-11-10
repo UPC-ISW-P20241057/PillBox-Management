@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://azure-mau-postgre.postgres.database.azure.com:5432/pillbox_database
-    username: mau
-    password: Li@nel2022
+    url: jdbc:postgresql://medibox-db.postgres.database.azure.com:5432/pillbox_database
+    username: mauadmin
+    password: Pelotita123
     driver-class-name: org.postgresql.Driver
 
   jpa:
